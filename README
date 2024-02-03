@@ -1,0 +1,25 @@
+
+# AirPlay 2
+https://github.com/mikebrady/shairport-sync/blob/master/BUILD.md
+- Follow Airplay 2 (not classic)
+
+Setting impulse.wav
+https://github.com/mikebrady/shairport-sync/wiki/Digital-Signal-Processing-with-Shairport-Sync
+
+# Watchdog
+https://diode.io/blog/running-forever-with-the-raspberry-pi-hardware-watchdog
+
+# Record Player
+continuously pipe line-in to line-out
+
+systemctl status recordplayer
+sudo service recordplayer start
+
+./systemd/system/recordplayer.service
+
+dave@rpi3:~ $ ls -al /etc/systemd/system/multi-user.target.wants/recordplayer.service
+lrwxrwxrwx 1 root root 40 Jul 28 19:57 /etc/systemd/system/multi-user.target.wants/recordplayer.service -> /etc/systemd/system/recordplayer.service
+
+# Ensure USB device comes up as same device consistently
+# https://discourse.ardour.org/t/sound-card-order-changes-on-boot-up/80915/7
+_etc_modprobe.d_alsa-base -> /etc/modprobe.d/alsa-base

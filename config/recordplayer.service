@@ -1,0 +1,11 @@
+[Unit]
+Description=Audio Service
+
+[Service]
+ExecStart=/bin/bash -c 'arecord -D plughw:1,0 -f S16_LE -c2 -r 44100 | sox -t wav - -t wav - vol 0.08 compand .1,.2 -inf,-50.1,-inf,-50,-50 0 -90 .1 | aplay -D LineOut -f S16_LE -c2 -r 44100'
+Restart=always
+User=shairport-sync
+Group=shairport-sync
+
+[Install]
+WantedBy=multi-user.target
