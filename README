@@ -22,4 +22,6 @@ lrwxrwxrwx 1 root root 40 Jul 28 19:57 /etc/systemd/system/multi-user.target.wan
 
 # Ensure USB device comes up as same device consistently
 # https://discourse.ardour.org/t/sound-card-order-changes-on-boot-up/80915/7
-_etc_modprobe.d_alsa-base -> /etc/modprobe.d/alsa-base
+_etc_modprobe.d_alsa-base.conf -> /etc/modprobe.d/alsa-base.conf
+
+aplay -l | grep USB -> should be card 1
