@@ -2,8 +2,9 @@
 Description=Audio Service
 
 [Service]
-ExecStart=/bin/bash -c 'arecord -D plughw:1,0 -f S16_LE -c2 -r 44100 | sox -t wav - -t wav - vol 4 bandreject 60 .01 compand .1,.2 -inf,-50.1,-inf,-50,-50 0 -90 | aplay -D LineOut -f S16_LE -c2 -r 44100'
+ExecStart=/bin/bash -c 'arecord -D plughw:1,0 -f S16_LE -c2 -r 44100 | sox -t wav - -t wav - vol 1 bandreject 60 .01 compand .1,.2 -inf,-50.1,-inf,-50,-50 0 -90 | aplay -D LineOut -f S16_LE -c2 -r 44100'
 Restart=always
+RuntimeMaxSec=1d
 User=shairport-sync
 Group=shairport-sync
 

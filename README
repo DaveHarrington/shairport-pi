@@ -1,3 +1,9 @@
+# Setup that works!
+
+- Record player with pre-amp on
+- Line reducer, set to ~0.25
+- Mic on 43 in alsamixer
+- Vol 1 (e.g. don't change volume) in sox
 
 # AirPlay 2
 https://github.com/mikebrady/shairport-sync/blob/master/BUILD.md
@@ -25,3 +31,20 @@ lrwxrwxrwx 1 root root 40 Jul 28 19:57 /etc/systemd/system/multi-user.target.wan
 _etc_modprobe.d_alsa-base.conf -> /etc/modprobe.d/alsa-base.conf
 
 aplay -l | grep USB -> should be card 1
+
+------
+After a few days, something happens and it starts to hiss.
+Seems to be in the USB audio recording step?
+
+Things I tried that didn't help:
+- Restarting record-player service
+- Reloading audio usb
+
+Now:
+ - Reboot device daily
+
+Added /usr/local/bin/shairport-watchdog, with a cron every 10 minutes
+
+-----
+
+see: /etc/asound.conf
