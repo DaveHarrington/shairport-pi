@@ -39,12 +39,19 @@ Seems to be in the USB audio recording step?
 Things I tried that didn't help:
 - Restarting record-player service
 - Reloading audio usb
-
-Now:
- - Reboot device daily
+- Reboot device daily (Wouldn't come back up)
 
 Added /usr/local/bin/shairport-watchdog, with a cron every 10 minutes
+- Look for errors pointing at soundcard
+- and check soundcard is listed by aplay -l in the right port
+
+And normal watchdog, monitoring network not online
 
 -----
 
 see: /etc/asound.conf
+
+-----
+
+Extra watchdog
+- script in /etc/watchdog.d that checks systemd is still responding

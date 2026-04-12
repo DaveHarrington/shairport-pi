@@ -1,0 +1,6 @@
+#!/bin/sh
+# Fail if systemd D-Bus is not listening
+ss -xl | grep -q '/run/systemd/private' || exit 1
+# Also ensure systemctl can talk
+systemctl show -p Version >/dev/null 2>&1 || exit 1
+exit 0

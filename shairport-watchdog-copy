@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+# Check for ALSA errors in last 2 minutes
+if journalctl -u shairport-sync --since "2 minutes ago" | grep -q "unable to open slave"; then
+  echo "$(date) ALSA dmix error detected, rebooting..." | tee -a /var/log/shairport-watchdog
+  /sbin/reboot
+fi
+
+# Also check for mixer control warnings as early indicator
+if journalctl -u shairport-sync --since "30 seconds ago" | grep -q "failed to find mixer control"; then
+  # Give it a moment to see if ALSA errors follow
+  sleep 10
+  if journalctl -u shairport-sync --since "1 minute ago" | grep -q "unable to open slave"; then
+    echo "$(date) Mixer control warning followed by ALSA errors, rebooting..." | tee -a /var/log/shairport-watchdog
+    /sbin/reboot
+  fi
+fi
+
+# Check if USB audio device is missing from card 1
+if ! aplay -l | grep -q "card 1:.*USB Audio Device"; then
+  echo "$(date) USB Audio Device missing from card 1, rebooting..." | tee -a /var/log/shairport-watchdog
+  /sbin/reboot
+fi
