@@ -1,0 +1,1 @@
+*/10 * * * * /usr/local/bin/shairport-watchdog 2>&1 | logger -t shairport-watchdog

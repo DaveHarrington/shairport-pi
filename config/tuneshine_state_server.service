@@ -1,0 +1,13 @@
+[Unit]
+Description=Make /var/tuneshine_state_request available for Tuneshine Pi to request
+After=network.target
+
+[Service]
+# ExecStart=/usr/bin/python3 /home/dave/tuneshine/tuneshine_state_server.py
+ExecStart=/usr/bin/node /home/dave/tuneshine/tuneshine_state_server.js
+Restart=always
+User=www-data
+WorkingDirectory=/home/dave/tuneshine/
+
+[Install]
+WantedBy=multi-user.target

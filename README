@@ -55,3 +55,34 @@ see: /etc/asound.conf
 
 Extra watchdog
 - script in /etc/watchdog.d that checks systemd is still responding
+
+------
+# Rebuild from scratch (last done 2026-10-05)
+
+Raspberry Pi 3B, Raspberry Pi OS Lite 64-bit (Debian 13 trixie), USB audio = C-Media adapter
+(Unitek Y-247A), user `dave` with passwordless sudo.
+
+1. Flash with Raspberry Pi Imager: hostname `rpi3`, user `dave`, ssh with public key.
+2. `sudo apt install alsa-utils sox libasound2-plugin-equal nodejs watchdog`
+3. Audio: `config/_etc_modprobe.d_alsa-base.conf` -> `/etc/modprobe.d/alsa-base.conf` (USB = card 1),
+   `config/asound.conf` -> `/etc/asound.conf`, `config/alsaequal.bin` -> `~/.alsaequal.bin`.
+   Mixer (`amixer -c 1`): Mic Capture 20 (~43% in alsamixer), Mic Playback 2, Speaker 30,30;
+   then `sudo alsactl store`.
+4. AirPlay 2: `./build-airplay2.sh` (deps incl. libplist-utils + systemd-dev, latest nqptp and
+   shairport-sync tags, same configure flags as before). Then `config/shairport-sync.conf` ->
+   `/etc/shairport-sync.conf`, `sudo usermod -aG www-data shairport-sync`,
+   `sudo systemctl enable --now nqptp shairport-sync`.
+5. tuneshine: `tuneshine/` -> `~/tuneshine/`; `chmod 711 ~` (trixie homes are 700; shairport-sync
+   and www-data need to reach it); `sudo install -o www-data -g www-data -m 664 /dev/null /var/tuneshine-state-request`;
+   `config/tuneshine_state_server.service` -> `/etc/systemd/system/`; enable it.
+   Check: `curl localhost:8000/playing`.
+6. Record player: `config/recordplayer.service` -> `/etc/systemd/system/`; enable it.
+7. Watchdogs: `dtparam=watchdog=on` in `/boot/firmware/config.txt`; `config/watchdog.conf` ->
+   `/etc/watchdog.conf`, `config/etc_default_watchdog` -> `/etc/default/watchdog`,
+   `config/watchdog-systemd-check-copy` -> `/etc/watchdog.d/watchdog-systemd-check`;
+   `config/shairport-watchdog-copy` -> `/usr/local/bin/shairport-watchdog`; root crontab from
+   `config/root-crontab`; enable `watchdog`.
+8. Also in `/boot/firmware/config.txt`: `audio_pwm_mode=2`, `dtoverlay=disable-bt` (Bluetooth unused).
+
+Convolution (`~/impulse.wav`) is off: the old 4.2 build never had it compiled in. `~/rrnoise` was
+just a clone of https://gitlab.xiph.org/xiph/rnnoise and isn't used.
