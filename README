@@ -72,7 +72,8 @@ Raspberry Pi 3B, Raspberry Pi OS Lite 64-bit (Debian 13 trixie), USB audio = C-M
    `config/alsaequal-shairport-sync.bin` -> `/home/shairport-sync/.alsaequal.bin` (owner
    shairport-sync). This is the AirPlay equalizer; it differs from dave's copy.
    Mixer (`amixer -c 1`): Mic Capture 20 (~43% in alsamixer), Mic Playback 2, Speaker 30,30;
-   then `sudo alsactl store`.
+   then `sudo alsactl store` (or copy `config/asound.state` -> `/var/lib/alsa/asound.state` and
+   `sudo alsactl restore`).
 4. AirPlay 2: `./build-airplay2.sh` (deps incl. libplist-utils + systemd-dev, latest nqptp and
    shairport-sync tags, same configure flags as before). Then `config/shairport-sync.conf` ->
    `/etc/shairport-sync.conf`, `sudo usermod -aG www-data shairport-sync`,
@@ -89,5 +90,5 @@ Raspberry Pi 3B, Raspberry Pi OS Lite 64-bit (Debian 13 trixie), USB audio = C-M
    `config/root-crontab`; enable `watchdog`.
 8. Also in `/boot/firmware/config.txt`: `audio_pwm_mode=2`, `dtoverlay=disable-bt` (Bluetooth unused).
 
-Convolution (`~/impulse.wav`) is off: the old 4.2 build never had it compiled in. `~/rrnoise` was
+Convolution (`config/impulse.wav` -> `~/impulse.wav`) is off: the old 4.2 build never had it compiled in. `~/rrnoise` was
 just a clone of https://gitlab.xiph.org/xiph/rnnoise and isn't used.
