@@ -87,8 +87,12 @@ Raspberry Pi 3B, Raspberry Pi OS Lite 64-bit (Debian 13 trixie), USB audio = C-M
    `/etc/watchdog.conf`, `config/etc_default_watchdog` -> `/etc/default/watchdog`,
    `config/watchdog-systemd-check-copy` -> `/etc/watchdog.d/watchdog-systemd-check`;
    `config/shairport-watchdog-copy` -> `/usr/local/bin/shairport-watchdog`; root crontab from
-   `config/root-crontab`; enable `watchdog`.
+   `config/root-crontab`; enable `watchdog`. Also `config/50-watchdog-daemon-owns-device.conf` ->
+   `/etc/systemd/system.conf.d/` (Raspberry Pi OS gives `/dev/watchdog` to systemd, so otherwise the
+   watchdog daemon can't open it and its systemd check never reboots).
 8. Also in `/boot/firmware/config.txt`: `audio_pwm_mode=2`, `dtoverlay=disable-bt` (Bluetooth unused).
+9. Persistent journal: `config/journald-90-persistent.conf` -> `/etc/systemd/journald.conf.d/90-persistent.conf`.
+   The number must sort after Raspberry Pi OS's `40-rpi-volatile-storage.conf`, which otherwise wins.
 
 Convolution (`config/impulse.wav` -> `~/impulse.wav`) is off: the old 4.2 build never had it compiled in. `~/rrnoise` was
 just a clone of https://gitlab.xiph.org/xiph/rnnoise and isn't used.
