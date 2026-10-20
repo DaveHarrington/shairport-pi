@@ -16,9 +16,9 @@ if journalctl -u shairport-sync --no-pager --since "30 seconds ago" | grep -q "f
   fi
 fi
 
-# Check if USB audio device is missing from card 1
-if ! aplay -l | grep -q "card 1:.*USB Audio Device"; then
-  echo "$(date) USB Audio Device missing from card 1, rebooting..." | tee -a /var/log/shairport-watchdog
+# Check if the USB audio device (ALSA id USBAudio) is missing
+if ! aplay -l | grep -q "^card [0-9]*: USBAudio "; then
+  echo "$(date) USB Audio Device (USBAudio) missing, rebooting..." | tee -a /var/log/shairport-watchdog
   /sbin/reboot
 fi
 echo "Shairport watchdog: OK"

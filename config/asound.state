@@ -24,7 +24,7 @@ state.Headphones {
 		}
 	}
 }
-state.Device {
+state.USBAudio {
 	control.1 {
 		iface PCM
 		name 'Playback Channel Map'
