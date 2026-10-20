@@ -72,7 +72,7 @@ Raspberry Pi 3B, Raspberry Pi OS Lite 64-bit (Debian 13 trixie), USB audio = C-M
    `sudo install -d -o shairport-sync -g shairport-sync -m 700 /home/shairport-sync` and
    `config/alsaequal-shairport-sync.bin` -> `/home/shairport-sync/.alsaequal.bin` (owner
    shairport-sync). This is the AirPlay equalizer; it differs from dave's copy.
-   Mixer (`amixer -c USBAudio`): Mic Capture 20 (~43% in alsamixer), Mic Playback 2, Speaker 30,30;
+   Mixer (`amixer -c USBAudio`): Mic Capture 20 (~43% in alsamixer), Mic Playback 2, Speaker 37,37 (max);
    then `sudo alsactl store` (or copy `config/asound.state` -> `/var/lib/alsa/asound.state` and
    `sudo alsactl restore`).
 4. AirPlay 2: `./build-airplay2.sh` (deps incl. libplist-utils + systemd-dev, latest nqptp and
