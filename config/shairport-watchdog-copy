@@ -21,4 +21,14 @@ if ! aplay -l | grep -q "^card [0-9]*: USBAudio "; then
   echo "$(date) USB Audio Device (USBAudio) missing, rebooting..." | tee -a /var/log/shairport-watchdog
   /sbin/reboot
 fi
+# Restart audio services that crashed and that systemd gave up restarting (nqptp died
+# on 2026-10-24 and stayed down; AirPlay looked available but played nothing).
+for unit in nqptp avahi-daemon shairport-sync; do
+  if systemctl is-failed --quiet "$unit"; then
+    echo "$(date) $unit failed, restarting" | tee -a /var/log/shairport-watchdog
+    systemctl reset-failed "$unit"
+    systemctl restart "$unit"
+  fi
+done
+
 echo "Shairport watchdog: OK"
